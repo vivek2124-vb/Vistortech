@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /vt-admin
+Disallow: /api
+
+Sitemap: https://vistortech.com/sitemap.xml

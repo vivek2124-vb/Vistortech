@@ -1,0 +1,27 @@
+<svg width="600" height="180" viewBox="0 0 600 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0EA5E9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="vtAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0EA5E9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22D3EE;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Icon mark: clean V formed by two converging bars, meeting at a point -->
+  <g transform="translate(15, 25)">
+    <polygon points="0,0 20,0 62,120 42,120" fill="url(#vtGrad)"/>
+    <polygon points="124,0 104,0 62,120 82,120" fill="url(#vtGrad)"/>
+    <circle cx="62" cy="134" r="9" fill="url(#vtAccent)"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="165" y="98" font-family="'Segoe UI', Arial, sans-serif" font-size="52" font-weight="700" fill="#0F172A">
+    Vistora<tspan fill="#0EA5E9">tech</tspan>
+  </text>
+  <text x="167" y="125" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="500" letter-spacing="3" fill="#64748B">
+    WEB &#8226; APP &#8226; MARKETING &#8226; E-COMMERCE
+  </text>
+</svg>
