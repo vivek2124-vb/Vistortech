@@ -4,7 +4,7 @@ import { useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 /**
- * value: array of { url, publicId, isPdf?, fileName?, uploading?, progress?, error? }
+ * value: array of { url, publicId, uploading?, progress?, error? }
  * onChange: (nextValue) => void
  */
 export default function ImageUploader({ value, onChange }) {
@@ -37,14 +37,7 @@ export default function ImageUploader({ value, onChange }) {
           onChange((prev) =>
             prev.map((img) =>
               img.tempId === tempId
-                ? {
-                    url: data.url,
-                    publicId: data.publicId,
-                    isPdf: img.isPdf,
-                    fileName: img.fileName,
-                    uploading: false,
-                    progress: 100,
-                  }
+                ? { url: data.url, publicId: data.publicId, uploading: false, progress: 100 }
                 : img
             )
           );
@@ -75,16 +68,12 @@ export default function ImageUploader({ value, onChange }) {
 
   const handleFiles = useCallback(
     (fileList) => {
-      const files = Array.from(fileList).filter(
-        (f) => f.type.startsWith("image/") || f.type === "application/pdf"
-      );
+      const files = Array.from(fileList).filter((f) => f.type.startsWith("image/"));
       if (files.length === 0) return;
 
       const newEntries = files.map((file) => ({
         tempId: `${file.name}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
         url: URL.createObjectURL(file),
-        isPdf: file.type === "application/pdf",
-        fileName: file.name,
         localPreview: true,
         uploading: true,
         progress: 0,
@@ -137,7 +126,7 @@ export default function ImageUploader({ value, onChange }) {
         <input
           ref={inputRef}
           type="file"
-          accept="image/*,application/pdf"
+          accept="image/*"
           multiple
           className="hidden"
           onChange={(e) => {
@@ -152,9 +141,9 @@ export default function ImageUploader({ value, onChange }) {
             </svg>
           </div>
           <p className="text-sm font-medium text-ink">
-            Drag & drop images or PDFs, or <span className="text-sky">browse</span>
+            Drag & drop images, or <span className="text-sky">browse</span>
           </p>
-          <p className="text-xs text-slate">JPG, PNG, WEBP, GIF, AVIF, or PDF — up to 8MB each</p>
+          <p className="text-xs text-slate">JPG, PNG, WEBP, GIF, or AVIF — up to 8MB each</p>
         </div>
       </div>
 
@@ -173,33 +162,11 @@ export default function ImageUploader({ value, onChange }) {
                 style={{ perspective: 800 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                {img.isPdf ? (
-                  <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-slate/10 p-2">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="h-8 w-8 text-slate/60"
-                      stroke="currentColor"
-                      strokeWidth={1.5}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"
-                      />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 3v5h5" />
-                    </svg>
-                    <span className="line-clamp-2 text-center text-[10px] font-medium text-slate/80">
-                      {img.fileName || "PDF file"}
-                    </span>
-                  </div>
-                ) : (
-                  <img
-                    src={img.url}
-                    alt="Portfolio upload preview"
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                )}
+                <img
+                  src={img.url}
+                  alt="Portfolio upload preview"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
@@ -235,7 +202,7 @@ export default function ImageUploader({ value, onChange }) {
                     type="button"
                     onClick={() => handleRemove(img)}
                     className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-ink/70 text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 hover:bg-red-600"
-                    aria-label="Remove file"
+                    aria-label="Remove image"
                   >
                     <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
