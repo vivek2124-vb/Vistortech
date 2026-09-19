@@ -28,7 +28,7 @@ const labelClass = "mb-1.5 block text-xs font-semibold uppercase tracking-wide t
 
 export default function ProjectForm({ onCreated }) {
   const [form, setForm] = useState(EMPTY_FORM);
-  const [images, setImages] = useState([]); // { tempId?, url, publicId?, isPdf?, fileName?, uploading?, progress?, error? }
+  const [images, setImages] = useState([]); // { tempId?, url, publicId?, uploading?, progress?, error? }
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
 
@@ -44,7 +44,7 @@ export default function ProjectForm({ onCreated }) {
     setError("");
 
     if (stillUploading) {
-      setError("Hang tight — files are still uploading.");
+      setError("Hang tight — images are still uploading.");
       return;
     }
 
@@ -53,19 +53,8 @@ export default function ProjectForm({ onCreated }) {
     const payload = {
       ...form,
       techStack: form.techStack.split(",").map((t) => t.trim()).filter(Boolean),
-      images: readyImages
-        .filter((img) => !img.isPdf)
-        .map((img) => img.url),
-      imagePublicIds: readyImages
-        .filter((img) => !img.isPdf)
-        .map((img) => img.publicId),
-      documents: readyImages
-        .filter((img) => img.isPdf)
-        .map((img) => ({
-          url: img.url,
-          publicId: img.publicId,
-          fileName: img.fileName || "",
-        })),
+      images: readyImages.map((img) => img.url),
+      imagePublicIds: readyImages.map((img) => img.publicId),
     };
 
     try {
@@ -154,7 +143,7 @@ export default function ProjectForm({ onCreated }) {
       </div>
 
       <div className="relative">
-        <label className={labelClass}>Portfolio images & documents</label>
+        <label className={labelClass}>Portfolio images</label>
         <ImageUploader value={images} onChange={setImages} />
         {images.length > 0 && (
           <p className="mt-2 text-[11px] text-slate">
